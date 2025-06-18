@@ -26,10 +26,27 @@ def show_menu():
     print("0 - Exit")
 
 
+def handle_choice(choice, data):
+    if choice == "2":
+        population = data.get("population", "Unknown")
+        area = data.get("area", "Unknown")
+        print(f"Population: {population}")
+        print(f"Area: {area} km²")
+    elif choice == "0":
+        print("Goodbye!")
+    else:
+        print("Option not implemented yet.")
+
+
+
 def main():
-    show_menu()
-    choice = input("Enter your choice: ")
-    print(f"You selected option {choice}.")
+    while True:
+        show_menu()
+        choice = input("Enter your choice: ")
+        if choice == "0":
+            print("Goodbye!")
+            break
+        handle_choice(choice, data)
 
 
 if __name__ == "__main__":
