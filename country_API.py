@@ -28,15 +28,15 @@ def show_menu():
 
 def handle_choice(choice, data):
     if choice == "2":
-        population = data.get("population", "Unknown")
-        area = data.get("area", "Unknown")
-        print(f"Population: {population}")
-        print(f"Area: {area} km²")
-    elif choice == "0":
-        print("Goodbye!")
+        population = data.get("population", 0)
+        area = data.get("area", 0)
+        density = population / area if area else 0
+        print(f"Population: {population:,}")
+        print(f"Area: {area:,} km²")
+        print(f"(👉 That means you’ll find about {density:.0f} people per km² here.)")
+
     else:
         print("Option not implemented yet.")
-
 
 
 def main():
@@ -44,7 +44,9 @@ def main():
         show_menu()
         choice = input("Enter your choice: ")
         if choice == "0":
-            print("Goodbye!")
+            print(f"Hmm, so... you're done here? "
+                  f"\nOr have you caught the travel bug for {country.title()}?"
+                  f"\nBon voyage and good-bye 👋 🧳!")
             break
         handle_choice(choice, data)
 
