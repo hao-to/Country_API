@@ -4,8 +4,13 @@ import requests
 country = input("Please enter a country name: ")
 
 # Build the API URL and make a request to the REST Countries API
-url = f"https://restcountries.com/v3.1/name/{country}?"
+url = f"https://restcountries.com/v3.1/name/{country}"
 response = requests.get(url)
+
+if response.status_code != 200:
+    print("Country not found. Please check your spelling and try again.")
+    exit()
+
 data = response.json()[0]
 
 
