@@ -12,10 +12,12 @@ if response.status_code != 200:
     exit()
 
 data = response.json()[0]
+common_name = data["name"]["common"]
+
 
 
 def show_menu():
-    print(f"\nWhat would you like to know about {country.title()}?")
+    print(f"\nWhat would you like to know about {common_name.title()}?")
     print("1 - General information")
     print("2 - Population and area")
     print("3 - Languages")
@@ -33,7 +35,7 @@ def handle_choice(choice, data):
         density = population / area if area else 0
         print(f"Population: {population:,}")
         print(f"Area: {area:,} km²")
-        print(f"(👉 That means you’ll find about {density:.0f} people per km² here.)")
+        print(f"(👉 That means, on average, you’ll find about {density:.0f} people per km² in {common_name}.)")
 
     else:
         print("Option not implemented yet.")
