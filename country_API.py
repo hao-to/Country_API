@@ -47,7 +47,7 @@ def main():
         choice = input("Enter your choice: ")
         if choice == "0":
             print(f"Hmm, so... you're done here? "
-                  f"\nOr have you caught the travel bug for {country.title()}?"
+                  f"\nOr have you caught the travel bug for {common_name}?"
                   f"\nBon voyage and good-bye 👋 🧳!")
             break
         handle_choice(choice, data)
