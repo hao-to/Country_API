@@ -69,6 +69,17 @@ def handle_choice(choice, data):
             print(", ".join(borders))
         else:
             print(f"{common_name} has no land borders.")
+    elif choice == "6":
+        flag_data = data.get("flags", {})
+        flag_url = flag_data.get("png") or flag_data.get("svg")
+        alt_text = flag_data.get("alt", "Flag description not available.")
+
+        if flag_url:
+            print(f"🏳️  Flag of {common_name}:")
+            print(f"URL: {flag_url}")
+            print(f"Description: {alt_text}")
+        else:
+            print("No flag data available.")
 
     else:
         print("Option not implemented yet.")
