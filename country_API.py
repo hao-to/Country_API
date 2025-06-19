@@ -78,6 +78,9 @@ def main():
     while True:
         show_menu()
         choice = input("Enter your choice: ")
+        if not choice.isdigit() or int(choice) not in range(0, 8):
+            print("Invalid input. Please enter a number between 0 and 7.")
+            continue
         if choice == "0":
             print(f"Hmm, so... you're done here? "
                   f"\nOr have you caught the travel bug for {common_name}?"
