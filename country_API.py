@@ -40,44 +40,41 @@ def get_fun_fact(country_name):
         )
     except wikipedia.exceptions.PageError:
         return (
-            f"Oh no! Wikipedia doesn’t seem to have an article for '{country_name}'. "
+            f"Oh no! Wikipedia doesn't seem to have an article for '{country_name}'. "
             "Double-check the name?"
         )
-    except Exception as e:
-        return (
-            "Something went wrong while trying to fetch a fun fact. "
-            "Maybe try again in a bit!"
-        )
+    except Exception as unexpected_error:
+        return f"Unexpected error occurred: {unexpected_error}"
 
 
-def handle_choice(choice, data):
+def handle_choice(choice, country_data):
     if choice == "1":
-        official_name = data["name"]["official"]
-        capital = data["capital"][0] if "capital" in data else "Unknown"
-        region = data.get("region", "Unknown")
-        subregion = data.get("subregion", "Unknown")
+        official_name = country_data["name"]["official"]
+        capital = country_data["capital"][0] if "capital" in country_data else "Unknown"
+        region = country_data.get("region", "Unknown")
+        subregion = country_data.get("subregion", "Unknown")
 
         print(f"Official name: {official_name}")
         print(f"Capital city: {capital}")
         print(f"Region: {region} / {subregion}")
 
     elif choice == "2":
-        population = data.get("population", 0)
-        area = int(data.get("area", 0))
+        population = country_data.get("population", 0)
+        area = int(country_data.get("area", 0))
         density = population / area if area else 0
         print(f"Population: {population:,}")
         print(f"Area: {area:,} km²")
         print(f"(👉 That means, on average, you’ll find about {density:.0f} people per km² in {common_name}.)")
 
     elif choice == "3":
-        languages = data.get("languages", {})
+        languages = country_data.get("languages", {})
         if languages:
             language_list = ", ".join(languages.values())
             print(f"Languages spoken in {common_name}: {language_list}")
         else:
             print("No language data available.")
     elif choice == "4":
-        currencies = data.get("currencies", {})
+        currencies = country_data.get("currencies", {})
         if currencies:
             for code, currency in currencies.items():
                 name = currency.get("name", "Unknown")
@@ -86,14 +83,14 @@ def handle_choice(choice, data):
         else:
             print("No currency data available.")
     elif choice == "5":
-        borders = data.get("borders", [])
+        borders = country_data.get("borders", [])
         if borders:
             print(f"{common_name} shares land borders with the following countries (by code):")
             print(", ".join(borders))
         else:
             print(f"{common_name} has no land borders.")
     elif choice == "6":
-        flag_data = data.get("flags", {})
+        flag_data = country_data.get("flags", {})
         flag_url = flag_data.get("png") or flag_data.get("svg")
         alt_text = flag_data.get("alt", "Flag description not available.")
 
@@ -105,10 +102,13 @@ def handle_choice(choice, data):
             print("No flag data available.")
 
     elif choice == "7":
+
         print(f"\n🤓 Fun fact about {common_name}:")
         print("-" * 40)
         print(get_fun_fact(common_name))
         print("-" * 40)
+        print("Okay... maybe not *fun* fun. But hey, still a fact! 😅")
+        print("🚧 A real fun fact feature is coming soon (maybe?!)... 👉 stay curious!")
 
     else:
         print("Option not implemented yet.")
