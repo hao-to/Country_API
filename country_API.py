@@ -62,6 +62,13 @@ def handle_choice(choice, data):
                 print(f"{name} ({code}) – Symbol: {symbol}")
         else:
             print("No currency data available.")
+    elif choice == "5":
+        borders = data.get("borders", [])
+        if borders:
+            print(f"{common_name} shares land borders with the following countries (by code):")
+            print(", ".join(borders))
+        else:
+            print(f"{common_name} has no land borders.")
 
     else:
         print("Option not implemented yet.")
