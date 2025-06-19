@@ -1,4 +1,5 @@
 import requests
+import wikipedia
 
 # Ask the user for a country name
 country = input("Please enter a country name: ")
@@ -25,6 +26,28 @@ def show_menu():
     print("6 - Show flag")
     print("7 - Fun fact")
     print("0 - Exit")
+
+
+def get_fun_fact(country_name):
+    wikipedia.set_lang("en")
+    try:
+        return wikipedia.summary(country_name, sentences=2, auto_suggest=False)
+    except wikipedia.exceptions.DisambiguationError as e:
+        suggestions = ", ".join(e.options[:3])
+        return (
+            f"Hmm, '{country_name}' could refer to several topics. 🤔\n"
+            f"Maybe you meant: {suggestions}..."
+        )
+    except wikipedia.exceptions.PageError:
+        return (
+            f"Oh no! Wikipedia doesn’t seem to have an article for '{country_name}'. "
+            "Double-check the name?"
+        )
+    except Exception as e:
+        return (
+            "Something went wrong while trying to fetch a fun fact. "
+            "Maybe try again in a bit!"
+        )
 
 
 def handle_choice(choice, data):
@@ -80,6 +103,12 @@ def handle_choice(choice, data):
             print(f"Description: {alt_text}")
         else:
             print("No flag data available.")
+
+    elif choice == "7":
+        print(f"\n🤓 Fun fact about {common_name}:")
+        print("-" * 40)
+        print(get_fun_fact(common_name))
+        print("-" * 40)
 
     else:
         print("Option not implemented yet.")
