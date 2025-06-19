@@ -15,7 +15,6 @@ data = response.json()[0]
 common_name = data["name"]["common"]
 
 
-
 def show_menu():
     print(f"\nWhat would you like to know about {common_name.title()}?")
     print("1 - General information")
@@ -54,6 +53,15 @@ def handle_choice(choice, data):
             print(f"Languages spoken in {common_name}: {language_list}")
         else:
             print("No language data available.")
+    elif choice == "4":
+        currencies = data.get("currencies", {})
+        if currencies:
+            for code, currency in currencies.items():
+                name = currency.get("name", "Unknown")
+                symbol = currency.get("symbol", "?")
+                print(f"{name} ({code}) – Symbol: {symbol}")
+        else:
+            print("No currency data available.")
 
     else:
         print("Option not implemented yet.")
