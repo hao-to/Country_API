@@ -1,5 +1,6 @@
 import requests
 import wikipedia
+import textwrap
 
 # Ask the user for a country name
 country = input("Please enter a country name: ")
@@ -105,7 +106,11 @@ def handle_choice(choice, country_data):
 
         print(f"\n🤓 Fun fact about {common_name}:")
         print("-" * 40)
-        print(get_fun_fact(common_name))
+
+        fact = get_fun_fact(common_name)
+        wrapped_text = textwrap.fill(fact, width=80)  # or 70, 60, depending ond terminal
+        print(wrapped_text)
+
         print("-" * 40)
         print("Okay... maybe not *fun* fun. But hey, still a fact! 😅")
         print("🚧 A real fun fact feature is coming soon (maybe?!)... 👉 stay curious!")
