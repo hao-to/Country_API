@@ -103,17 +103,21 @@ def handle_choice(choice, country_data):
             print("No flag data available.")
 
     elif choice == "7":
-
         print(f"\n🤓 Fun fact about {common_name}:")
         print("-" * 40)
+        source = input("Would you like a fact from Wikipedia or AI? (w/a): ").strip().lower()
+        if source == "a":
+            print("AI fun facts coming soon... 🚧")
+        elif source == "w":
+            fact = get_fun_fact(common_name)
+            print()
+            print(textwrap.fill(fact, width=80))
+            print("-" * 40)
+            print("Okay... maybe not *fun* fun. But hey, still a fact! 😅")
+            print("🚧 A real fun fact feature is coming soon (maybe?!)... 👉 stay curious!")
 
-        fact = get_fun_fact(common_name)
-        wrapped_text = textwrap.fill(fact, width=80)  # or 70, 60, depending ond terminal
-        print(wrapped_text)
-
-        print("-" * 40)
-        print("Okay... maybe not *fun* fun. But hey, still a fact! 😅")
-        print("🚧 A real fun fact feature is coming soon (maybe?!)... 👉 stay curious!")
+        else:
+            print("Invalid choice. Please enter 'w' or 'a'.")
 
     else:
         print("Option not implemented yet.")
