@@ -1,6 +1,12 @@
 import requests
 import wikipedia
 import textwrap
+import os
+from dotenv import load_dotenv
+import google.generativeai as genai
+
+load_dotenv()
+
 
 # Ask the user for a country name
 country = input("Please enter a country name: ")
@@ -46,6 +52,24 @@ def get_fun_fact(country_name):
         )
     except Exception as unexpected_error:
         return f"Unexpected error occurred: {unexpected_error}"
+
+
+def get_ai_fact(country_name):
+    try:
+        genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+        model = genai.GenerativeModel("gemini-2.5-flash")
+
+        prompt = (
+            f"You are a well-informed travel guide. "
+            f"Share one real, culturally interesting fun fact about {country_name} that many people don't know. "
+            f"Keep it short (1–2 sentences), fun, informative, and engaging. "
+            f"If possible, include something surprising or unusual — but only if it's true."
+        )
+
+        ai_response = model.generate_content(prompt)
+        return ai_response.text.strip()
+    except Exception as e:
+        return f"(AI error: {e})"
 
 
 def handle_choice(choice, country_data):
@@ -107,20 +131,22 @@ def handle_choice(choice, country_data):
         print("-" * 40)
         source = input("Would you like a fact from Wikipedia or AI? (w/a): ").strip().lower()
         if source == "a":
-            print("AI fun facts coming soon... 🚧")
+            fact = get_ai_fact(common_name)
+            print()
+            print(textwrap.fill(fact, width=80))
+            print("-" * 40)
+
         elif source == "w":
             fact = get_fun_fact(common_name)
             print()
             print(textwrap.fill(fact, width=80))
             print("-" * 40)
             print("Okay... maybe not *fun* fun. But hey, still a fact! 😅")
-            print("🚧 A real fun fact feature is coming soon (maybe?!)... 👉 stay curious!")
+            print("💡 Try the AI version next time – maybe it knows a *funnier* fun fact! 🤖")
+
 
         else:
-            print("Invalid choice. Please enter 'w' or 'a'.")
-
-    else:
-        print("Option not implemented yet.")
+            print("❌ Invalid input. Please enter 'w' for Wikipedia or 'a' for AI.")
 
 
 def main():
